@@ -1,0 +1,70 @@
+# ==============================================================================
+# 任务4：登录智能小车 - SSH + VNC / Windows远程桌面完整配置文档
+# 知识点：树莓派开机配置WiFi、开启SSH、PuTTY SSH登录、XRDP图形桌面远程
+# ==============================================================================
+
+## 一、树莓派首次开机前配置（电脑操作SD卡，无头免显示器启动）
+### 1. SD卡boot分区创建空ssh文件（开启SSH服务）
+1. 读卡器插入烧录好系统的SD卡，打开boot分区
+2. 新建空白文本文档，重命名为 ssh （无后缀，内容留空）
+
+### 2. SD卡boot分区创建wpa_supplicant.conf（自动连接WiFi）
+新建文件 wpa_supplicant.conf，完整模板：
+country=CN
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+    ssid="你的WiFi热点名称"
+    psk="你的WiFi密码"
+    key_mgmt=WPA-PSK
+    priority=1
+}
+# 修改 ssid、psk 为自己的WiFi信息，保存后弹出SD卡插入树莓派上电
+
+## 二、获取树莓派IP地址（登录前置重点）
+1. 手机开热点，电脑、树莓派连接同一热点，手机热点页面查看已连接设备IP
+2. 路由器后台（192.168.1.1）查看设备列表获取 raspberrypi IP
+3. 树莓派终端查看IP命令（连接显示器时使用）：
+$ hostname -I
+
+## 三、方式1：PuTTY SSH命令行远程登录（任务核心）
+### 1. PuTTY安装步骤
+1. 安装包：putty-0.83-installer.msi
+2. 安装选项说明：
+   - Install PuTTY files：必选，核心程序
+   - Add shortcut to PuTTY on the Desktop：可选，桌面快捷方式
+   - Put install directory on the PATH：勾选，cmd可直接调用putty
+   - Associate .PPK files：可选，密钥文件关联
+3. 一路Next → Install → Finish完成安装
+
+### 2. SSH登录完整操作
+1. 打开PuTTY，Host Name(or IP address)填入树莓派IP，端口默认22
+2. 点击Open，首次连接弹出密钥弹窗，选择【YES】
+3. 登录账号：pi  默认密码：raspberry
+4. 登录成功提示符：pi@raspberrypi:~ $
+5. 后续所有终端命令省略前缀，统一以 $ 开头
+
+## 四、方式2：Windows远程桌面（XRDP图形界面，替代VNC）
+### 1. SSH登录树莓派安装XRDP服务
+$ sudo apt install xrdp
+
+### 2. Windows客户端操作
+1. 按下 Win+R 输入 mstsc 打开远程桌面连接
+2. 计算机处填入树莓派IP，点击连接
+3. 输入账号pi、密码raspberry，进入树莓派图形桌面
+
+## 五、任务5配套：用户账户管理命令（附在这里方便开发）
+# 5.1 创建新用户相关命令
+# 1. 设置root管理员密码
+$ sudo passwd root
+# 2. 切换root超级用户（提示符变为#）
+$ su root
+# 3. 新建专属开发用户（root权限执行）
+# adduser caruser
+
+# 5.2 目录查看基础命令（任务5.2）
+$ pwd                # 查看当前所在目录
+$ cd /               # 切换到系统根目录
+$ ls                 # 查看当前目录文件列表
+$ cd /home/pi        # 切换到pi用户家目录
+$ mkdir code         # 创建基础开发工作目录
