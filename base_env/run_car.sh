@@ -145,3 +145,38 @@ case $1 in
         show_help
         ;;
 esac
+
+
+echo "===== 开始编译所有小车硬件驱动程序 ====="
+
+# 1. 任务7 电机驱动 motor_driver.c
+echo "编译电机驱动 motor_driver..."
+gcc hardware_driver/motor_driver.c -o motor_driver -lwiringPi -lpthread
+
+# 2. 任务8 状态指示灯 status_led.c
+echo "编译LED状态指示 status_led..."
+gcc hardware_driver/status_led.c -o status_led -lwiringPi
+
+# 3. 任务9 蜂鸣器报警 alarm_buzzer.c
+echo "编译蜂鸣器报警 alarm_buzzer..."
+gcc hardware_driver/alarm_buzzer.c -o alarm_buzzer -lwiringPi
+
+# 4. 任务10 按键输入 key_input.c
+echo "编译按键检测 key_input..."
+gcc hardware_driver/key_input.c -o key_input -lwiringPi
+
+echo "===== 全部编译完成，运行示例： ====="
+echo "sudo ./motor_driver    测试电机"
+echo "sudo ./status_led      测试LED指示灯"
+echo "sudo ./alarm_buzzer    测试蜂鸣器音乐/报警"
+echo "sudo ./key_input       测试按键切换灯光"
+
+四、使用方法
+给脚本添加执行权限（终端执行一次）：
+chmod +x base_env/run_car.sh
+
+一键批量编译所有驱动:
+./base_env/run_car.sh
+
+单独运行对应程序，例如测试按键：
+sudo ./key_input
