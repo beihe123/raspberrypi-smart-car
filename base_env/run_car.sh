@@ -211,3 +211,10 @@ gcc ir_remote/ir_remote.c -o ir_remote -lwiringPi -llirc_client -lpthread
 echo "编译完成,运行测试命令:sudo ./ir_remote"
 echo "提示：使用前请执行 sudo systemctl start lircd 启动红外服务"
 echo "------------------------------------------------"
+
+# ========== 任务23/24/25 WiFi网络TCP控制模块 wifi_network ==========
+echo "===== 正在编译WiFi远程控制服务 wifi_server ====="
+gcc wifi_network/wifi_server.c ultrasonic/pca9685.c -o wifi_server -lwiringPi -lwiringPiDev -lpthread
+echo "编译完成,运行示例:sudo ./wifi_server 2001"
+echo "配套摄像头视频启动:cd mjpg-streamer/mjpg-streamer-experimental && sudo ./start.sh"
+echo "------------------------------------------------"
