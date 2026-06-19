@@ -180,3 +180,34 @@ chmod +x base_env/run_car.sh
 
 单独运行对应程序，例如测试按键：
 sudo ./key_input
+
+# ========== 任务11、12 基础运动模块 basic_move ==========
+echo "===== 正在编译基础运动控制模块 basic_move ====="
+gcc basic_move/basic_move.c -o basic_move -lwiringPi -lpthread
+echo "编译完成,运行测试命令sudo ./basic_move"
+echo "------------------------------------------------"
+
+# ========== 任务13、14 红外循迹模块 tracking_line ==========
+echo "===== 正在编译红外循迹模块 tracking_line ====="
+gcc tracking_line/tracking_line.c -o tracking_line -lwiringPi -lpthread
+echo "编译完成,运行测试命令:sudo ./tracking_line"
+
+
+# ========== 任务15、16 红外避障模块 ir_obstacle ==========
+echo "===== 正在编译红外避障模块 ir_obstacle ====="
+gcc ir_obstacle/ir_obstacle.c -o ir_obstacle -lwiringPi -lpthread
+echo "编译完成,运行测试命令:sudo ./ir_obstacle"
+echo "------------------------------------------------"
+
+# ========== 任务17-20 超声波+PCA9685舵机模块 ultrasonic ==========
+echo "===== 正在编译超声波舵机模块 ultrasonic ====="
+gcc ultrasonic/ultrasonic.c ultrasonic/pca9685.c -o ultrasonic -lwiringPi -lwiringPiDev -lpthread
+echo "编译完成,运行测试命令:sudo ./ultrasonic"
+echo "------------------------------------------------"
+
+# ========== 任务21、22 红外遥控模块 ir_remote ==========
+echo "===== 正在编译红外遥控模块 ir_remote ====="
+gcc ir_remote/ir_remote.c -o ir_remote -lwiringPi -llirc_client -lpthread
+echo "编译完成,运行测试命令:sudo ./ir_remote"
+echo "提示：使用前请执行 sudo systemctl start lircd 启动红外服务"
+echo "------------------------------------------------"
