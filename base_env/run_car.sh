@@ -180,3 +180,9 @@ chmod +x base_env/run_car.sh
 
 单独运行对应程序，例如测试按键：
 sudo ./key_input
+
+# ========== 任务11、12 基础运动模块 basic_move ==========
+echo "===== 正在编译基础运动控制模块 basic_move ====="
+gcc basic_move/basic_move.c -o basic_move -lwiringPi -lpthread
+echo "编译完成，运行测试命令：sudo ./basic_move"
+echo "------------------------------------------------"
