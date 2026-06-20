@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小车Web遥控</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .container {
+            margin-top: 40%;
+            text-align: center;
+        }
+        .btn {
+            width: 90px;
+            height: 90px;
+            margin: 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <button id="leftup" class="btn btn-primary">↖</button>
+        <button id="up" class="btn btn-primary">↑</button>
+        <button id="rightup" class="btn btn-primary">↗</button>
+    </div>
+    <div>
+        <button id="left" class="btn btn-primary">←</button>
+        <button id="turn_round" class="btn btn-success">掉头</button>
+        <button id="right" class="btn btn-primary">→</button>
+    </div>
+    <div>
+        <button id="leftdown" class="btn btn-primary">↙</button>
+        <button id="down" class="btn btn-primary">↓</button>
+        <button id="rightdown" class="btn btn-primary">↘</button>
+    </div>
+</div>
+
+<script>
+    let moving = false;
+    let intervalId = null;
+
+    // 发送控制指令
+    function sendCmd(dir) {
+        $.post("/cmd", dir);
+    }
+
+    // 长按持续发送指令
+    function startMove(dir) {
+        if (moving) return;
+        moving = true;
+        sendCmd(dir);
+        intervalId = setInterval(() => {
+            sendCmd(dir);
+        }, 200);
+    }
+
+    // 松开停止
+    function stopMove() {
+        moving = false;
+        clearInterval(intervalId);
+    }
+
+    $(function () {
+        // 触屏按下
+        $("button").on("touchstart mousedown", function (e) {
+            e.preventDefault();
+            let d = $(this).attr("id");
+            startMove(d);
+        });
+        // 松开/移出停止
+        $("button").on("touchend mouseup mouseout", function () {
+            stopMove();
+        });
+    });
+</script>
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>

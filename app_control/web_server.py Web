@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+from bottle import get, post, run, request, template
+from car_motor import *
+
+# 首页渲染移动端遥控页面
+@get("/")
+def index():
+    return template("index")
+
+# 接收前端POST控制指令
+@post("/cmd")
+def cmd():
+    data = request.body.read().decode()
+    print("收到控制指令：", data)
+    sleep_t = 0.2
+    if data == "up":
+        up(sleep_t)
+    elif data == "down":
+        down(sleep_t)
+    elif data == "left":
+        left(sleep_t)
+    elif data == "right":
+        right(sleep_t)
+    elif data == "leftup":
+        leftup(sleep_t)
+    elif data == "rightup":
+        rightup(sleep_t)
+    elif data == "leftdown":
+        leftdown(sleep_t)
+    elif data == "rightdown":
+        rightdown(sleep_t)
+    elif data == "turn_round":
+        turn_round(sleep_t)
+    return "ok"
+
+if __name__ == "__main__":
+    # 0.0.0.0 允许局域网所有手机访问，端口8080
+    run(host="0.0.0.0", port=8080, template_path="./views")

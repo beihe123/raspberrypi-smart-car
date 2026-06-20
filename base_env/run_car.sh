@@ -218,3 +218,10 @@ gcc wifi_network/wifi_server.c ultrasonic/pca9685.c -o wifi_server -lwiringPi -l
 echo "编译完成,运行示例:sudo ./wifi_server 2001"
 echo "配套摄像头视频启动:cd mjpg-streamer/mjpg-streamer-experimental && sudo ./start.sh"
 echo "------------------------------------------------"
+
+# ========== 任务26 手机Web APP网页控制模块 app_control ==========
+echo "===== 任务26 网页遥控小车环境与启动说明 ====="
+echo "1. 一键安装依赖:sudo bash app_control/install.sh"
+echo "2. 启动Web服务:cd app_control && python3 web_server.py"
+echo "3. 手机同WiFi访问树莓派IP:8080"
+echo "----------------------------------------------"
