@@ -1,0 +1,28 @@
+# 整机统一引脚配置文件，Python项目全部导入此文件
+# TB6612电机 BOARD物理引脚
+PA = 12
+A1 = 13
+A2 = 15
+PB = 16
+B1 = 18
+B2 = 22
+
+# HC-SR04超声波
+ULTRA_TRIG = 28
+ULTRA_ECHO = 29
+
+# PCA9685舵机参数
+PIN_BASE = 300
+PCA_ADDR = 0x40
+SERVO_HZ = 50
+MAX_PWM = 4096
+PTZ_LR_CH = 1
+PTZ_UD_CH = 2
+SERVO_MIN = 0
+SERVO_MAX = 180
+STEP = 10
+
+# 业务常量
+WIFI_PORT = 2001
+WEB_APP_PORT = 8080
+DANGER_DIST = 40.0

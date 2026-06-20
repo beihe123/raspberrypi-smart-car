@@ -145,3 +145,83 @@ case $1 in
         show_help
         ;;
 esac
+
+
+echo "===== 开始编译所有小车硬件驱动程序 ====="
+
+# 1. 任务7 电机驱动 motor_driver.c
+echo "编译电机驱动 motor_driver..."
+gcc hardware_driver/motor_driver.c -o motor_driver -lwiringPi -lpthread
+
+# 2. 任务8 状态指示灯 status_led.c
+echo "编译LED状态指示 status_led..."
+gcc hardware_driver/status_led.c -o status_led -lwiringPi
+
+# 3. 任务9 蜂鸣器报警 alarm_buzzer.c
+echo "编译蜂鸣器报警 alarm_buzzer..."
+gcc hardware_driver/alarm_buzzer.c -o alarm_buzzer -lwiringPi
+
+# 4. 任务10 按键输入 key_input.c
+echo "编译按键检测 key_input..."
+gcc hardware_driver/key_input.c -o key_input -lwiringPi
+
+echo "===== 全部编译完成，运行示例： ====="
+echo "sudo ./motor_driver    测试电机"
+echo "sudo ./status_led      测试LED指示灯"
+echo "sudo ./alarm_buzzer    测试蜂鸣器音乐/报警"
+echo "sudo ./key_input       测试按键切换灯光"
+
+四、使用方法
+给脚本添加执行权限（终端执行一次）：
+chmod +x base_env/run_car.sh
+
+一键批量编译所有驱动:
+./base_env/run_car.sh
+
+单独运行对应程序，例如测试按键：
+sudo ./key_input
+
+# ========== 任务11、12 基础运动模块 basic_move ==========
+echo "===== 正在编译基础运动控制模块 basic_move ====="
+gcc basic_move/basic_move.c -o basic_move -lwiringPi -lpthread
+echo "编译完成,运行测试命令sudo ./basic_move"
+echo "------------------------------------------------"
+
+# ========== 任务13、14 红外循迹模块 tracking_line ==========
+echo "===== 正在编译红外循迹模块 tracking_line ====="
+gcc tracking_line/tracking_line.c -o tracking_line -lwiringPi -lpthread
+echo "编译完成,运行测试命令:sudo ./tracking_line"
+
+
+# ========== 任务15、16 红外避障模块 ir_obstacle ==========
+echo "===== 正在编译红外避障模块 ir_obstacle ====="
+gcc ir_obstacle/ir_obstacle.c -o ir_obstacle -lwiringPi -lpthread
+echo "编译完成,运行测试命令:sudo ./ir_obstacle"
+echo "------------------------------------------------"
+
+# ========== 任务17-20 超声波+PCA9685舵机模块 ultrasonic ==========
+echo "===== 正在编译超声波舵机模块 ultrasonic ====="
+gcc ultrasonic/ultrasonic.c ultrasonic/pca9685.c -o ultrasonic -lwiringPi -lwiringPiDev -lpthread
+echo "编译完成,运行测试命令:sudo ./ultrasonic"
+echo "------------------------------------------------"
+
+# ========== 任务21、22 红外遥控模块 ir_remote ==========
+echo "===== 正在编译红外遥控模块 ir_remote ====="
+gcc ir_remote/ir_remote.c -o ir_remote -lwiringPi -llirc_client -lpthread
+echo "编译完成,运行测试命令:sudo ./ir_remote"
+echo "提示：使用前请执行 sudo systemctl start lircd 启动红外服务"
+echo "------------------------------------------------"
+
+# ========== 任务23/24/25 WiFi网络TCP控制模块 wifi_network ==========
+echo "===== 正在编译WiFi远程控制服务 wifi_server ====="
+gcc wifi_network/wifi_server.c ultrasonic/pca9685.c -o wifi_server -lwiringPi -lwiringPiDev -lpthread
+echo "编译完成,运行示例:sudo ./wifi_server 2001"
+echo "配套摄像头视频启动:cd mjpg-streamer/mjpg-streamer-experimental && sudo ./start.sh"
+echo "------------------------------------------------"
+
+# ========== 任务26 手机Web APP网页控制模块 app_control ==========
+echo "===== 任务26 网页遥控小车环境与启动说明 ====="
+echo "1. 一键安装依赖:sudo bash app_control/install.sh"
+echo "2. 启动Web服务:cd app_control && python3 web_server.py"
+echo "3. 手机同WiFi访问树莓派IP:8080"
+echo "----------------------------------------------"
